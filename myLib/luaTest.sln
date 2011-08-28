@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "luaTest", "luaTest.vcproj", "{D02E140E-7D85-4619-ABC0-689E7D158F1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D02E140E-7D85-4619-ABC0-689E7D158F1D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D02E140E-7D85-4619-ABC0-689E7D158F1D}.Debug|Win32.Build.0 = Debug|Win32
+		{D02E140E-7D85-4619-ABC0-689E7D158F1D}.Release|Win32.ActiveCfg = Release|Win32
+		{D02E140E-7D85-4619-ABC0-689E7D158F1D}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
