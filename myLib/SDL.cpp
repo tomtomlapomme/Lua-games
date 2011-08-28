@@ -9,7 +9,6 @@
 // for font only
 #include "freeglut.h"
 
-
 const float pi = 3.14159f;
 
 void drawSquare( float x, float y, float width, float height )

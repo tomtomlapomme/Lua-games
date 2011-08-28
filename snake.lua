@@ -5,7 +5,6 @@ windowsSize = { x = 300, y = 300 }
 
 myLib.init( windowsSize.x, windowsSize.y )
 
-
 local world = {
 field = {},
 snakeSize = 2,

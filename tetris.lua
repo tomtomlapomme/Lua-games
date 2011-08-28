@@ -454,5 +454,4 @@ while command.close == false do
 		draw( world )
 	end
 end
-
 myLib.close()
