@@ -203,7 +203,8 @@ piece,
 position = { x = 5, y = 1 },
 rotation = 1,
 nbTry = 0,
-lines = 0 }
+lines = 0,
+fall = 1 }
 
 -- init world
 for i=1,world.size.x do
@@ -293,10 +294,6 @@ end
 function advance( world, command )
 	local nextPosition = { x = world.position.x, y = world.position.y + 1 }
 
-	if( command.down ) then
-		--TODO
-	end
-
 	local result = tryPosition( world, nextPosition, world.rotation )
 	if( result == false ) then
 		world.nbTry = world.nbTry + 1
@@ -312,6 +309,7 @@ function advance( world, command )
 		world.nbTry = 0
 		world.piece = pickNewPiece()
 		world.nbTry = 0
+		world.fall = 1
 		if( tryPosition( world, world.position, world.rotation ) == false ) then
 			print( "you loose" )
 			command.close = true
@@ -322,6 +320,7 @@ end
 
 function draw( world )
 	--clear
+	myLib.color(0,0,0)
 	myLib.clear()
 
 	--draw current piece
@@ -417,7 +416,7 @@ function event( world, command )
 		if key == 273 then
 			command.turn = command.turn + 1
 		elseif key == 274 then
-			command.down = command.down + 1
+			world.fall = world.fall * 5
 		elseif key == 275 then
 			command.right = command.right + 1
 		elseif key == 276 then
@@ -444,7 +443,7 @@ while command.close == false do
 	turn( world, command )
 
 	loop = loop + 1
-	if( loop == 10 ) then
+	if( loop >= 500/world.fall ) then
 		loop = 0
 		advance( world, command )
 	end

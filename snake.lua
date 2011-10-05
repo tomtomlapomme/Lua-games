@@ -1,14 +1,14 @@
 require("myLib")
 require("math")
 
-windowsSize = { x = 300, y = 300 }
+windowsSize = { x = 500, y = 500 }
 
 myLib.init( windowsSize.x, windowsSize.y )
 
 local world = {
 field = {},
 snakeSize = 2,
-size = { x = 10, y = 10 },
+size = { x = 20, y = 20 },
 snake = {
 { x=5, y=5 },
 { x=4, y=5},
@@ -27,9 +27,9 @@ turnLeft,
 close = 0 }
 
 --init world
-for i=1,10 do
+for i=1,world.size.x do
 	world.field[i] = {}
-	for j=1,10 do
+	for j=1,world.size.y do
 		world.field[i][j] = 0
 	end
 end
@@ -91,11 +91,12 @@ end
 
 function draw( world )
 	--clear the back buffer
+	myLib.color(1, 1, 1)
 	myLib.clear()
 
 	-- draw the circle
 	myLib.color(0, 0, 1)
-	myLib.circle((world.candy.x-1)*0.2-1+0.1, (world.candy.y-1)*0.2-1+0.1, 0.08)
+	myLib.circle((world.candy.x-1)*2/world.size.x-1+1/world.size.x, (world.candy.y-1)*2/world.size.y-1+1/world.size.y, 1/world.size.x*0.8)
 
 	-- draw snake
 	myLib.color(1, 0, 0)

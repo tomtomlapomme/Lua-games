@@ -41,6 +41,7 @@ void drawCircle( float x, float y, float r )
 void color( float r, float g, float b )
 {
 	glColor3f(r, g, b);
+	glClearColor(r, g, b, 1.f);
 }
 
 void clear()
