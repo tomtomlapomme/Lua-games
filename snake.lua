@@ -2,7 +2,7 @@ require("myLib")
 require("math")
 
 windowsSize = { x = 500, y = 500 }
-
+math.randomseed( os.time() )
 myLib.init( windowsSize.x, windowsSize.y )
 
 local world = {
@@ -81,12 +81,12 @@ function event( command )
 		elseif key == 276 then
 			command.turnLeft = true
 		end
+		if isEvent == 2 then
+			command.close = 1
+			break
+		end
 		isEvent, key = myLib.key()
 	end
-	if isEvent == 2 then
-		command.close = 1
-	end
-
 end
 
 function draw( world )

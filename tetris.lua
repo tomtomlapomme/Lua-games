@@ -1,7 +1,7 @@
 require("myLib")
 require("math")
 
-local windowsSize = { x = 200, y = 400 }
+local windowsSize = { x = 300, y = 600 }
 
 myLib.init( windowsSize.x, windowsSize.y )
 
@@ -160,6 +160,8 @@ positions = {
   {x = 0, y = 1},
   {x = 1, y = 1} } }
 }
+
+math.randomseed( os.time() )
 
 function pickNewPiece()
 	local r = math.random(7)
