@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <iostream>
+using namespace std;
 #include "SDL.h"
 extern "C" {
 	#include "lua.h"
@@ -29,10 +31,15 @@ static int Clear_ (lua_State *L) {
 
 static int Key_ (lua_State *L) {
 	int k = 0;
-	int isKey = key(k);
+	int x = 0;
+	int y = 0;
+	int isKey = key(k, x, y);
+
 	lua_pushnumber(L, isKey);
 	lua_pushnumber(L, k);
-	return 2;
+	lua_pushnumber(L, x);
+	lua_pushnumber(L, y);
+	return 4;
 }
 
 static int Square_(lua_State *L){
@@ -74,6 +81,14 @@ static int Close_(lua_State * L)
 	return 0;
 }
 
+static int Point_(lua_State * L)
+{
+	float x = luaL_checknumber(L, 1);
+	float y = luaL_checknumber(L, 2);
+	drawPoint( x, y );
+	return 0;
+}
+
 int __declspec(dllexport) luaopen_myLib (lua_State *L) {
 	struct luaL_reg driver[] = {
 		{"init", Init_},
@@ -85,6 +100,7 @@ int __declspec(dllexport) luaopen_myLib (lua_State *L) {
 		{"text", Text_},
 		{"color", Color_},
 		{"close", Close_},
+		{"point", Point_},
 		{NULL, NULL},
 	};
 	luaL_openlib (L, "myLib", driver, 0);

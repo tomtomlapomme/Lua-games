@@ -38,6 +38,13 @@ void drawCircle( float x, float y, float r )
 	glPopMatrix();
 }
 
+void drawPoint( float x, float y )
+{
+	glBegin(GL_POINTS);
+	glVertex2f(x, y);
+	glEnd();
+}
+
 void color( float r, float g, float b )
 {
 	glColor3f(r, g, b);
@@ -74,14 +81,14 @@ void Init( int width, int height )
 void drawText( float x, float y, const char* text)
 {
 	glRasterPos3f( x, y, 0.f );
-	int len = (int) strlen(text);
+	int len = (int) strlen(text)+1;
 	for (int i = 0; i < len; i++) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, text[i]);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
 	}
 }
 
 
-int key( int& key )
+int key( int& key, int &x, int &y )
 {	
 SDL_Event event;
  
@@ -97,11 +104,16 @@ SDL_Event event;
 			case SDL_QUIT:
 				return 2;
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				x = event.button.x;
+				y = event.button.y;
+				return 5;
+				break;
 			default:
 				return 4;
 				break;
 		}
-		
+
 	}
 	return 0;
 }
