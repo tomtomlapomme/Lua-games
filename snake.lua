@@ -8,7 +8,7 @@ myLib.init( windowsSize.x, windowsSize.y )
 local world = {
 field = {},
 snakeSize = 2,
-size = { x = 20, y = 20 },
+size = { x = 10, y = 10 },
 snake = {
 { x=5, y=5 },
 { x=4, y=5},
@@ -91,7 +91,7 @@ end
 
 function draw( world )
 	--clear the back buffer
-	myLib.color(1, 1, 1)
+	myLib.color(0.1, 0.5, 0)
 	myLib.clear()
 
 	-- draw the circle
