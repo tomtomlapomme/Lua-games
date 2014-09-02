@@ -224,58 +224,90 @@ function Game(command,world)
 	end
 end
 
-function PlaceMin(world)
-	local x = 0
-	local y = 0
-	local min = world.size.x
-	for i=1,world.size.x do
-		for j=1,world.size.y do
-			if world.field[i][j] == 0 then
-				local allowed
-				local numberToken
-				allowed, numberToken = TryAndChange(world,i,j,false)
-				if allowed == true and numberToken < min then
-					x = i
-					y = j
-					min = numberToken
-				end
-			end
-		end
+function coef(x, y, world)
+	if (x == 1 or x == world.size.x) and (y == 1 or y == world.size.y) then
+		return 10
 	end
-	return x,y
+	if (x <= 2 or x >= world.size.x - 1) and (y <= 2 or y >= world.size.y - 1) then
+		return -2
+	end
+	if x == 2 or y == 2 or x == world.size.x - 1 or y == world.size.y - 1 then
+		return -1
+	end
+	if x == 1 or x == world.size.x or y == 1 or y == world.size.y then
+		return 5
+	end
+	return 2
 end
 
-function PlaceMax(world)
+-- evaluate the chances to win the game
+function getScore(world)
+	local score = 0
+	for i=1,world.size.x do
+		for j=1,world.size.y do
+			if world.field[i][j] == 1 then
+				score = score + 1*coef(i, j, world)
+			end
+			if world.field[i][j] == 2 then
+				score = score - 1*coef(i, j, world)
+			end
+		end
+	end
+	return score
+end
+
+function CopyWorld(world, worldCopy)
+	worldCopy.field = {}
+	worldCopy.size = { x = world.size.x, y = world.size.y }
+	worldCopy.turn = world.turn
+	for i=1,world.size.x do
+		worldCopy.field[i] = {}
+		for j=1,world.size.y do
+			worldCopy.field[i][j] = world.field[i][j]
+		end
+	end
+end
+
+function FindBest(world, depth, color)
 	local x = 0
 	local y = 0
-	local max = 0
+	if depth  == 0 then
+		return color * getScore(world), x, y
+	end
+	local tempworld = {}
+	CopyWorld(world, tempworld)
+	local bestValue = -100000
 	for i=1,world.size.x do
 		for j=1,world.size.y do
 			if world.field[i][j] == 0 then
-				local allowed
-				local numberToken
-				allowed, numberToken = TryAndChange(world,i,j,false)
-				if allowed == true and numberToken > max then
-					x = i
-					y = j
-					min = numberToken
+				if TryAndChange( tempworld, i, j, true ) == true then
+					local val = FindBest(tempworld, depth - 1, -color)
+					CopyWorld(world, tempworld)
+					bestValue = math.max(bestValue, val)
+					if bestValue == val then
+						x = i
+						y = j
+					end
 				end
 			end
 		end
 	end
-	return x,y
+	return bestValue, x, y
+end
+
+function MiniMax(world)
+	local m
+	local x = 0
+	local y = 0
+	local tempworld = {}
+	CopyWorld(world, tempworld)
+	m, x, y = FindBest(tempworld, 3, 1)
+	return x, y
 end
 
 -- IA
 function IA( command, world )
-	min = 0
-	x = 0
-	y = 0
-	if world.nbTurn < 25 then
-		x, y = PlaceMin(world)
-	else
-		x, y = PlaceMax(world)
-	end
+	x, y  = MiniMax(world)
 	command.x = x
 	command.y = y
 	command.click = 1
@@ -289,7 +321,6 @@ while command.close == 0 do
 	elseif os.clock() - world.played > 0.5 then
 		IA( command, world )
 	end
-
 	if world.gameOver == false then
 		Game(command,world)
 	end
